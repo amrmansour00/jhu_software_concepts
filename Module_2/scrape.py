@@ -251,5 +251,5 @@ class GradCafeScraper:
 
 
 if __name__ == "__main__":
-    scraper = GradCafeScraper(max_records=50)
+    scraper = GradCafeScraper(max_records=30000)
     scraper.scrape_data()
