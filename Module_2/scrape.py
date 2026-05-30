@@ -1,48 +1,32 @@
-import json
-import time
-import random
-import urllib.robotparser
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 
-class GradCafeScraper:
-    def __init__(self):
-        self.base_url = "https://www.thegradcafe.com"
+def scrape_data():
 
-    def scrape_data(self):
-        print("Scraping started...")
+    print("TEST START")
 
-        target_url = self.base_url
+    options = Options()
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
 
-        if not self._check_robots(target_url):
-            print("robots.txt does not allow scraping this URL.")
-            return []
+    service = Service()
 
-        print("robots.txt check passed.")
-        return []
+    driver = webdriver.Chrome(
+        service=service,
+        options=options
+    )
 
-    def save_data(self, data, filename="applicant_data.json"):
-        with open(filename, "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
+    driver.set_page_load_timeout(30)
 
-    def load_data(self, filename="applicant_data.json"):
-        with open(filename, "r", encoding="utf-8") as file:
-            return json.load(file)
+    driver.get("https://www.google.com")
 
-    def _check_robots(self, url):
-        robots_url = f"{self.base_url}/robots.txt"
+    print(driver.title)
 
-        parser = urllib.robotparser.RobotFileParser()
-        parser.set_url(robots_url)
-        parser.read()
-
-        return parser.can_fetch("*", url)
-
-    def _delay(self):
-        time.sleep(random.uniform(2, 5))
+    driver.quit()
 
 
 if __name__ == "__main__":
-    scraper = GradCafeScraper()
-    data = scraper.scrape_data()
-    scraper.save_data(data)
-    print(f"Records collected: {len(data)}")
+    scrape_data()
