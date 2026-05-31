@@ -1,7 +1,0 @@
-beautifulsoup4
-selenium
-lxml
-urllib3
-requests
-rapidfuzz
-tqdm
