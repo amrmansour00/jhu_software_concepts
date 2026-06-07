@@ -1,0 +1,6 @@
+Flask
+psycopg[binary]
+python-dotenv
+rapidfuzz
+requests
+beautifulsoup4

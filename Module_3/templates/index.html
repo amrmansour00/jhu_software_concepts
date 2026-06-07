@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GradCafe Data Analysis</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div>
+            <h1>GradCafe Data Analysis</h1>
+
+            <p>
+                SQL analysis of graduate admissions data
+                stored in PostgreSQL.
+            </p>
+        </div>
+
+        <form
+            action="{{ url_for('update_analysis') }}"
+            method="post"
+        >
+            <button
+                class="secondary"
+                type="submit"
+            >
+                Update Analysis
+            </button>
+        </form>
+
+    </header>
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+            <div class="message">
+
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+    {% endwith %}
+
+
+    <section class="actions">
+
+        <form
+            action="{{ url_for('pull_data') }}"
+            method="post"
+        >
+
+            <button type="submit">
+                Pull Data
+            </button>
+
+        </form>
+
+        <p>
+            Pull Data reloads the latest cleaned GradCafe
+            applicant dataset into PostgreSQL.
+
+            Update Analysis refreshes the webpage using
+            the newest SQL query results.
+        </p>
+
+    </section>
+
+
+    <section class="results">
+
+        {% for question, rows in results.items() %}
+
+            <div class="card">
+
+                <h2>{{ question }}</h2>
+
+                {% if rows %}
+
+                    <ul>
+
+                        {% for row in rows %}
+                            <li>{{ row }}</li>
+                        {% endfor %}
+
+                    </ul>
+
+                {% else %}
+
+                    <p>No results returned.</p>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </section>
+
+</div>
+
+</body>
+</html>
