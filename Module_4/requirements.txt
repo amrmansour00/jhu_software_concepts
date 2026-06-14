@@ -1,0 +1,8 @@
+Flask
+psycopg[binary]
+python-dotenv
+pytest
+pytest-cov
+beautifulsoup4
+Sphinx
+sphinx-rtd-theme
