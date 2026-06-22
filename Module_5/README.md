@@ -1,100 +1,68 @@
-\# Module 4 – Testing and Continuous Integration
+# GradCafe Analytics – Module 5
 
+## Project Overview
+A short description of the project.
 
+## Features
+- Flask web application
+- PostgreSQL database
+- Data loading
+- Analysis dashboard
+- Pytest test suite
+- Sphinx documentation
+- GitHub Actions CI
+- Snyk dependency scanning
 
-\## Overview
+## Project Structure
 
+Module_5/
+├── src/
+├── tests/
+├── docs/
+├── README.md
+...
 
+## Installation
 
-This project extends the GradCafe PostgreSQL analysis application by adding automated testing, continuous integration, and quality assurance practices.
+pip install -r requirements.txt
 
+## Environment Variables
 
+DATABASE_URL=postgresql://...
 
-\## Components
-
-
-
-\* Flask web application
-
-\* PostgreSQL data analysis
-
-\* Pytest automated test suite
-
-\* GitHub Actions workflow
-
-\* Coverage reporting
-
-
-
-\## Running the Application
-
-
-
-```bash
+## Running the Application
 
 python src/app.py
 
-```
-
-
-
-Open:
-
-
-
-http://127.0.0.1:5000
-
-
-
-\## Running Tests
-
-
-
-```bash
+## Running the Tests
 
 pytest -m "web or buttons or analysis or db or integration"
 
-```
+## Code Quality
 
-
-
-Current Result:
-
-
-
-\* 17 tests passed
-
-\* 100% coverage
-
-
-
-\## GitHub Actions
-
-
-
-Tests run automatically on every push to the main branch.
-
-
-
-\## Files
-
-
-
-\* src/app.py
-
-\* src/load\_data.py
-
-\* src/query\_data.py
-
-\* tests/
-
-\* actions\_success.png
-
-\* coverage\_summary.txt
+pylint src --fail-under=10
 
 ## Documentation
 
-Read the Docs: https://jhu-software-concepts-amr.readthedocs.io/https://jhu-software-concepts-amr.readthedocs.io/en/latest/
+Read the Docs:
+https://YOUR_PROJECT.readthedocs.io/
 
+## Dependency Graph
 
+dependency.svg
 
+## Security Scan
+
+Snyk dependency scan completed successfully.
+See:
+- snyk-analysis.png
+
+## Continuous Integration
+
+GitHub Actions workflow completed successfully.
+See:
+- ci_success.png
+
+## License
+
+Educational project for Johns Hopkins University.
