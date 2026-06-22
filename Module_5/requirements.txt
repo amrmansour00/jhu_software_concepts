@@ -1,0 +1,13 @@
+Flask
+psycopg[binary]
+python-dotenv
+pytest
+pytest-cov
+beautifulsoup4
+pylint
+pydeps
+sphinx
+sphinx-rtd-theme
+setuptools
+wheel
+uv

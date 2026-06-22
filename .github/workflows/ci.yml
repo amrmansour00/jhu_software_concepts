@@ -1,0 +1,52 @@
+name: Module 5 Security CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Module_5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Run Pylint
+        run: pylint src --fail-under=10
+
+      - name: Run Pytest
+        run: pytest -m "web or buttons or analysis or db or integration"
+
+      - name: Generate dependency graph
+        run: |
+          pydeps src/app.py --noshow -T svg -o dependency.svg
+          test -f dependency.svg
+
+      - name: Run Snyk dependency scan
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          npm install -g snyk
+          snyk test || true
