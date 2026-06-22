@@ -1,68 +1,256 @@
-# GradCafe Analytics – Module 5
+# \# GradCafe Analytics – Module 5
 
-## Project Overview
-A short description of the project.
+# 
 
-## Features
-- Flask web application
-- PostgreSQL database
-- Data loading
-- Analysis dashboard
-- Pytest test suite
-- Sphinx documentation
-- GitHub Actions CI
-- Snyk dependency scanning
+# \## Project Overview
 
-## Project Structure
+# 
 
-Module_5/
-├── src/
-├── tests/
-├── docs/
-├── README.md
-...
+# GradCafe Analytics is a Flask-based web application that loads graduate admission data into a PostgreSQL database and provides interactive analytics through a web interface. The project demonstrates secure database integration, automated testing, documentation, dependency analysis, and continuous integration following software engineering best practices.
 
-## Installation
+# 
 
-pip install -r requirements.txt
+# \## Features
 
-## Environment Variables
+# 
 
-DATABASE_URL=postgresql://...
+# \* Flask web application
 
-## Running the Application
+# \* PostgreSQL database integration
 
-python src/app.py
+# \* Automated data loading
 
-## Running the Tests
+# \* Graduate admissions analytics
 
-pytest -m "web or buttons or analysis or db or integration"
+# \* Pytest unit, integration, and database tests
 
-## Code Quality
+# \* 100% code coverage
 
-pylint src --fail-under=10
+# \* Pylint code quality score of 10/10
 
-## Documentation
+# \* Sphinx documentation with Read the Docs
 
-Read the Docs:
-https://YOUR_PROJECT.readthedocs.io/
+# \* GitHub Actions Continuous Integration
 
-## Dependency Graph
+# \* Snyk dependency vulnerability scanning
 
-dependency.svg
+# 
 
-## Security Scan
+# \## Project Structure
 
-Snyk dependency scan completed successfully.
-See:
-- snyk-analysis.png
+# 
 
-## Continuous Integration
+# ```
 
-GitHub Actions workflow completed successfully.
-See:
-- ci_success.png
+# Module\_5/
 
-## License
+# ├── docs/
 
-Educational project for Johns Hopkins University.
+# ├── src/
+
+# ├── tests/
+
+# ├── README.md
+
+# ├── requirements.txt
+
+# ├── setup.py
+
+# ├── pytest.ini
+
+# ├── .env.example
+
+# ├── .readthedocs.yaml
+
+# ├── dependency.svg
+
+# ├── coverage\_summary.txt
+
+# ├── pylint\_score.txt
+
+# ├── snyk-analysis.png
+
+# ├── ci\_success.png
+
+# ```
+
+# 
+
+# \## Installation
+
+# 
+
+# Install the required packages:
+
+# 
+
+# ```bash
+
+# pip install -r requirements.txt
+
+# ```
+
+# 
+
+# \## Environment Variables
+
+# 
+
+# Create a `.env` file using `.env.example` and configure:
+
+# 
+
+# ```text
+
+# DATABASE\_URL=postgresql://username:password@localhost:5432/gradcafe
+
+# ```
+
+# 
+
+# \## Running the Application
+
+# 
+
+# ```bash
+
+# python src/app.py
+
+# ```
+
+# 
+
+# The application starts a local Flask server where users can load GradCafe data and generate analytics.
+
+# 
+
+# \## Running the Tests
+
+# 
+
+# ```bash
+
+# pytest -m "web or buttons or analysis or db or integration"
+
+# ```
+
+# 
+
+# The project includes:
+
+# 
+
+# \* Web interface tests
+
+# \* Button/action tests
+
+# \* Database tests
+
+# \* Analysis formatting tests
+
+# \* End-to-end integration tests
+
+# 
+
+# Current test status:
+
+# 
+
+# \* 28 tests passed
+
+# \* 100% code coverage
+
+# 
+
+# \## Code Quality
+
+# 
+
+# Run:
+
+# 
+
+# ```bash
+
+# pylint src --fail-under=10
+
+# ```
+
+# 
+
+# Final score:
+
+# 
+
+# \* \*\*10.00/10\*\*
+
+# 
+
+# \## Documentation
+
+# 
+
+# Project documentation is published using Sphinx and Read the Docs.
+
+# 
+
+# Read the Docs:
+
+# 
+
+# \*\*Replace this line with your actual Read the Docs URL.\*\*
+
+# 
+
+# \## Dependency Graph
+
+# 
+
+# The project dependency graph is included in:
+
+# 
+
+# \* `dependency.svg`
+
+# 
+
+# \## Security Scan
+
+# 
+
+# Dependency vulnerability scanning was completed successfully using Snyk Open Source.
+
+# 
+
+# Evidence:
+
+# 
+
+# \* `snyk-analysis.png`
+
+# 
+
+# \## Continuous Integration
+
+# 
+
+# GitHub Actions automatically validates the project after every push.
+
+# 
+
+# Evidence:
+
+# 
+
+# \* `ci\_success.png`
+
+# 
+
+# \## License
+
+# 
+
+# This project was developed for the Johns Hopkins University Modern Software Concepts course and is intended for educational purposes.
+
+
+
