@@ -1,0 +1,7 @@
+worker-1  | RabbitMQ not ready yet. Retrying in 3 seconds...
+worker-1  | RabbitMQ not ready yet. Retrying in 3 seconds...
+worker-1  | Worker connected to RabbitMQ and waiting for tasks.
+worker-1  | Processed task scrape_new_data: {'processed': 2, 'inserted': 2}
+worker-1  | Processed task recompute_analytics: {'applicant_count': 2}
+worker-1  | Processed task scrape_new_data: {'processed': 0, 'inserted': 0}
+worker-1  | Processed task scrape_new_data: {'processed': 0, 'inserted': 0}

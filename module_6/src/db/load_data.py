@@ -3,7 +3,6 @@
 import json
 from pathlib import Path
 
-import psycopg
 
 
 CREATE_TABLES_SQL = """

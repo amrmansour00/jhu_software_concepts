@@ -1,8 +1,10 @@
 """RabbitMQ worker consumer for Module 6."""
+# pylint: disable=duplicate-code
 
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 import pika
@@ -30,23 +32,38 @@ def open_channel():
     """Open RabbitMQ connection and declare durable AMQP entities."""
     rabbitmq_url = os.environ["RABBITMQ_URL"]
     params = pika.URLParameters(rabbitmq_url)
-    connection = pika.BlockingConnection(params)
-    channel = connection.channel()
 
-    channel.exchange_declare(
-        exchange=EXCHANGE,
-        exchange_type="direct",
-        durable=True,
-    )
-    channel.queue_declare(queue=QUEUE, durable=True)
-    channel.queue_bind(
-        exchange=EXCHANGE,
-        queue=QUEUE,
-        routing_key=ROUTING_KEY,
-    )
-    channel.basic_qos(prefetch_count=1)
+    last_error = None
 
-    return connection, channel
+    for _ in range(20):
+        try:
+            connection = pika.BlockingConnection(params)
+            channel = connection.channel()
+
+            channel.exchange_declare(
+                exchange=EXCHANGE,
+                exchange_type="direct",
+                durable=True,
+            )
+            channel.queue_declare(queue=QUEUE, durable=True)
+            channel.queue_bind(
+                exchange=EXCHANGE,
+                queue=QUEUE,
+                routing_key=ROUTING_KEY,
+            )
+            channel.basic_qos(prefetch_count=1)
+
+            return connection, channel
+
+        except pika.exceptions.AMQPConnectionError as error:
+            last_error = error
+            print(
+                "RabbitMQ not ready yet. Retrying in 3 seconds...",
+                flush=True,
+            )
+            time.sleep(3)
+
+    raise RuntimeError("Could not connect to RabbitMQ after retries") from last_error
 
 
 def handle_task(task):
@@ -68,9 +85,12 @@ def handle_task(task):
                 raise ValueError(f"Unknown task kind: {kind}")
 
             connection.commit()
+            print(f"Processed task {kind}: {result}", flush=True)
             return result
+
         except Exception:
             connection.rollback()
+            print(f"Task failed and was rolled back: {kind}", flush=True)
             raise
 
 
@@ -80,7 +100,9 @@ def on_message(channel, method, _properties, body):
         task = json.loads(body.decode("utf-8"))
         handle_task(task)
         channel.basic_ack(delivery_tag=method.delivery_tag)
-    except Exception:  # pylint: disable=broad-exception-caught
+
+    except Exception as error:  # pylint: disable=broad-exception-caught
+        print(f"Message failed: {error}", flush=True)
         channel.basic_nack(
             delivery_tag=method.delivery_tag,
             requeue=False,
@@ -90,6 +112,8 @@ def on_message(channel, method, _properties, body):
 def main():
     """Start long-running RabbitMQ worker."""
     connection, channel = open_channel()
+    print("Worker connected to RabbitMQ and waiting for tasks.", flush=True)
+
     channel.basic_consume(queue=QUEUE, on_message_callback=on_message)
 
     try:

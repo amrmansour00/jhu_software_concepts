@@ -1,4 +1,5 @@
 """RabbitMQ publisher for Flask web service."""
+# pylint: disable=duplicate-code
 
 import json
 import os
