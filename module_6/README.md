@@ -1,256 +1,171 @@
-# \# GradCafe Analytics – Module 5
+# GradCafe Analytics – Module 6
 
-# 
+## Project Overview
 
-# \## Project Overview
+This project extends the GradCafe Analytics application into a containerized microservices architecture using Docker Compose, PostgreSQL, RabbitMQ, and Flask.
 
-# 
+The system separates the web application from the background worker using asynchronous messaging. User requests are queued through RabbitMQ and processed independently by the worker service before updating the PostgreSQL database.
 
-# GradCafe Analytics is a Flask-based web application that loads graduate admission data into a PostgreSQL database and provides interactive analytics through a web interface. The project demonstrates secure database integration, automated testing, documentation, dependency analysis, and continuous integration following software engineering best practices.
+---
 
-# 
+## Architecture
 
-# \## Features
+The application consists of four services:
 
-# 
+- Web Service (Flask)
+- Worker Service
+- PostgreSQL Database
+- RabbitMQ Message Broker
 
-# \* Flask web application
+Workflow:
 
-# \* PostgreSQL database integration
+1. User clicks **Pull Data**
+2. Flask publishes a message to RabbitMQ
+3. Worker consumes the message
+4. Worker processes applicant data
+5. PostgreSQL is updated
+6. User clicks **Update Analysis**
+7. SQL analytics are refreshed
 
-# \* Automated data loading
+---
 
-# \* Graduate admissions analytics
+## Project Structure
 
-# \* Pytest unit, integration, and database tests
+```
+Module_6/
+│
+├── src/
+│   ├── web/
+│   ├── worker/
+│   ├── db/
+│   └── data/
+│
+├── tests/
+├── docs/
+├── docker-compose.yml
+├── requirements.txt
+├── setup.py
+├── README.md
+```
 
-# \* 100% code coverage
+---
 
-# \* Pylint code quality score of 10/10
+## Installation
 
-# \* Sphinx documentation with Read the Docs
+Clone the repository:
 
-# \* GitHub Actions Continuous Integration
+```bash
+git clone <repository-url>
+```
 
-# \* Snyk dependency vulnerability scanning
+Install dependencies:
 
-# 
+```bash
+pip install -r requirements.txt
+```
 
-# \## Project Structure
+---
 
-# 
+## Docker Deployment
 
-# ```
+Build containers:
 
-# Module\_5/
+```bash
+docker compose build
+```
 
-# ├── docs/
+Start all services:
 
-# ├── src/
+```bash
+docker compose up -d
+```
 
-# ├── tests/
+Verify:
 
-# ├── README.md
+```bash
+docker compose ps
+```
 
-# ├── requirements.txt
+---
 
-# ├── setup.py
+## Running the Application
 
-# ├── pytest.ini
+Open:
 
-# ├── .env.example
+```
+http://localhost:8080
+```
 
-# ├── .readthedocs.yaml
+or in GitHub Codespaces:
 
-# ├── dependency.svg
+```
+https://<codespace>-8080.app.github.dev
+```
 
-# ├── coverage\_summary.txt
+---
 
-# ├── pylint\_score.txt
+## Running Tests
 
-# ├── snyk-analysis.png
+```
+pytest
+```
 
-# ├── ci\_success.png
+---
 
-# ```
+## Code Quality
 
-# 
+```
+PYTHONPATH=src:src/web pylint src --fail-under=10
+```
 
-# \## Installation
+Current score:
 
-# 
+```
+10.00/10
+```
 
-# Install the required packages:
+---
 
-# 
+## Documentation
 
-# ```bash
+Read the Docs:
 
-# pip install -r requirements.txt
+https://jhu-software-concepts-amr.readthedocs.io/en/latest/
 
-# ```
+---
 
-# 
+## Deliverables
 
-# \## Environment Variables
+Included:
 
-# 
+- Docker Compose configuration
+- Flask web service
+- RabbitMQ worker
+- PostgreSQL integration
+- Pytest test suite
+- Sphinx documentation
+- GitHub repository
+- Docker screenshots
+- RabbitMQ screenshots
+- Worker execution logs
 
-# Create a `.env` file using `.env.example` and configure:
+---
 
-# 
+## Evidence
 
-# ```text
+Included in this submission:
 
-# DATABASE\_URL=postgresql://username:password@localhost:5432/gradcafe
+- website_running.png
+- docker_running.png
+- rabbitmq_running.png
+- worker_processed_tasks.png
+- coverage_summary.txt
+- pylint_score.txt
+- docker_compose_status.txt
+- worker_logs.txt
 
-# ```
+---
 
-# 
+## License
 
-# \## Running the Application
-
-# 
-
-# ```bash
-
-# python src/app.py
-
-# ```
-
-# 
-
-# The application starts a local Flask server where users can load GradCafe data and generate analytics.
-
-# 
-
-# \## Running the Tests
-
-# 
-
-# ```bash
-
-# pytest -m "web or buttons or analysis or db or integration"
-
-# ```
-
-# 
-
-# The project includes:
-
-# 
-
-# \* Web interface tests
-
-# \* Button/action tests
-
-# \* Database tests
-
-# \* Analysis formatting tests
-
-# \* End-to-end integration tests
-
-# 
-
-# Current test status:
-
-# 
-
-# \* 28 tests passed
-
-# \* 100% code coverage
-
-# 
-
-# \## Code Quality
-
-# 
-
-# Run:
-
-# 
-
-# ```bash
-
-# pylint src --fail-under=10
-
-# ```
-
-# 
-
-# Final score:
-
-# 
-
-# \* \*\*10.00/10\*\*
-
-# 
-
-# \## Documentation
-
-# 
-
-# Project documentation is published using Sphinx and Read the Docs.
-
-# 
-
-# Read the Docs:
-
-# 
-
-# \*\*Replace this line with your actual Read the Docs URL.\*\*
-
-# 
-
-# \## Dependency Graph
-
-# 
-
-# The project dependency graph is included in:
-
-# 
-
-# \* `dependency.svg`
-
-# 
-
-# \## Security Scan
-
-# 
-
-# Dependency vulnerability scanning was completed successfully using Snyk Open Source.
-
-# 
-
-# Evidence:
-
-# 
-
-# \* `snyk-analysis.png`
-
-# 
-
-# \## Continuous Integration
-
-# 
-
-# GitHub Actions automatically validates the project after every push.
-
-# 
-
-# Evidence:
-
-# 
-
-# \* `ci\_success.png`
-
-# 
-
-# \## License
-
-# 
-
-# This project was developed for the Johns Hopkins University Modern Software Concepts course and is intended for educational purposes.
-
-
-
+Educational project submitted for the Johns Hopkins University Modern Software Concepts course.
