@@ -4,3 +4,5 @@ python-dotenv
 pytest
 pytest-cov
 beautifulsoup4
+sphinx
+sphinx-rtd-theme

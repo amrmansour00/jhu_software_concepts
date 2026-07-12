@@ -1,11 +1,11 @@
 GradCafe Analytics Documentation
-================================
+===============================
 
-This documentation describes the Module 5 GradCafe Analytics application, including setup, architecture, API reference, testing, database integration, security analysis, and operational notes.
+This documentation describes the Module 6 distributed GradCafe Analytics
+application using Docker Compose, PostgreSQL, RabbitMQ, Flask and a worker.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    setup
    architecture
