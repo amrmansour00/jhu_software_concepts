@@ -1,4 +1,0 @@
-app
-db
-load_data
-query_data
