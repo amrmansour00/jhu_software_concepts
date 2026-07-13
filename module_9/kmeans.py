@@ -195,7 +195,6 @@ def create_program_vectors(
     """Convert program names into TF-IDF vectors."""
     vectorizer = TfidfVectorizer(
         stop_words="english",
-        max_features=1000,
         lowercase=True,
         strip_accents="unicode",
     )
@@ -683,8 +682,8 @@ def main() -> None:
 
     vectors = create_program_vectors(dataframe)
 
-    print(f"TF-IDF matrix shape: {vectors.shape}")
-    print(f"TF-IDF matrix type: {type(vectors)}")
+    print(vectors.shape)
+    print(vectors)
 
     dense_vectors = vectors.toarray()
 
