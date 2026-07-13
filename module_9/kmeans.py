@@ -578,7 +578,7 @@ def save_gre_boxplot(
         f"GRE and GRE Verbal Scores for {description} Programs"
     )
     plt.xlabel("GRE Component")
-    plt.ylabel("Score (points)")
+    plt.ylabel("GRE Score (points)")
     plt.grid(axis="y", alpha=0.3)
     plt.legend()
     plt.tight_layout()
@@ -660,13 +660,14 @@ def analyze_required_programs(
     )
 
     print(
-        "\nConclusion: The GRE score distributions suggest that "
-        "additional data cleaning is required. The gre_score field "
-        "contains values from different GRE scoring formats, producing "
-        "a wide range and unusual distributions. Philosophy applicants "
-        "show a higher average GRE Verbal score in the available data, "
-        "but the unequal sample sizes and mixed scoring formats mean "
-        "that this comparison should be interpreted cautiously."
+        "\nConclusion: The Computer Science cluster contains GRE scores "
+    "from multiple scoring scales, with values spanning both the "
+    "older combined GRE format and the newer section-based format. "
+    "This results in unusually wide score distributions compared "
+    "with the Philosophy cluster. These inconsistencies indicate "
+    "that additional data cleaning and score normalization are "
+    "required before making meaningful comparisons between "
+    "graduate programs."
     )
 
 
