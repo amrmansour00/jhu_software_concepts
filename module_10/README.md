@@ -14,7 +14,27 @@ What factors appear to influence graduate admissions outcomes?
 
 
 
-This project uses the cleaned Grad Cafe graduate admissions dataset generated in previous modules. The dataset contains applicant information including degree type, admission outcome, GPA, start term, and applicant classification.
+\## Data Source
+
+
+
+Grad Cafe Admissions Dataset (student-generated copy from previous modules).
+
+
+
+\## Research Question
+
+
+
+What factors appear to influence graduate admissions outcomes?
+
+
+
+This analysis investigates whether degree type, GPA, start term, and applicant classification are associated with graduate admissions outcomes.
+
+
+
+The dataset contains applicant information including degree type, admission outcome, GPA, start term, and applicant classification.
 
 
 
