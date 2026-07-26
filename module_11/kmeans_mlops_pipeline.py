@@ -1,9 +1,10 @@
-"""Module 9 K-Means clustering analysis for Grad Café program data."""
+"""Module 11 MLflow tracking pipeline for Grad Café K-Means clustering."""
 
 from pathlib import Path
 import re
 
-import matplotlib.pyplot as plt
+import mlflow
+import mlflow.sklearn
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -11,190 +12,65 @@ from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-DATA_PATH = Path("../module_8/cleaned_applicant_data.csv")
+DATA_PATH = Path("../module_9/final_clustered_data.csv")
 
-INITIAL_CLUSTER_PATH = Path("initial_cluster.png")
-CLUSTERED_DATAFRAME_PATH = Path("clustered_dataFrame.png")
-ELBOW_PATH = Path("elbow.png")
-COMPUTER_SCIENCE_PATH = Path("computer_science.png")
-PHILOSOPHY_PATH = Path("philosophy.png")
-FINAL_DATA_PATH = Path("final_clustered_data.csv")
+TRACKING_URI = "http://127.0.0.1:8080"
+EXPERIMENT_NAME = "Module 11 KMeans Clustering"
+RUN_NAME = "KMeans 25 Clusters"
 
-INITIAL_CLUSTER_COUNT = 50
-FINAL_CLUSTER_COUNT = 85
-ANALYSIS_COMPONENTS = 75
+N_CLUSTERS = 25
+MAX_ITER = 500
+N_INIT = 5
 RANDOM_STATE = 42
+PCA_COMPONENTS = 75
 
-MONTH_PATTERN = (
-    "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec"
-)
+MODEL_ARTIFACT_NAME = "clustering_model"
 
 
-def extract_program_name(row: pd.Series) -> str:
-    """Extract the graduate program name from a raw listing."""
-    raw_listing = str(row.get("raw_listing", "")).strip()
-    university = str(row.get("university", "")).strip()
-    degree = str(row.get("degree", "")).strip()
+def clean_program_name(value: object) -> str:
+    """Normalize program-name text for clustering."""
+    text = str(value).strip()
+    text = re.sub(r"\s+", " ", text)
 
-    if not raw_listing or not degree:
+    if text.lower() in {"", "none", "nan", "unknown"}:
         return ""
 
-    if university and raw_listing.lower().startswith(
-        university.lower()
-    ):
-        remaining_text = raw_listing[len(university):].strip()
-    else:
-        remaining_text = raw_listing
-
-    escaped_degree = re.escape(degree)
-
-    pattern = (
-        rf"\s+{escaped_degree}\s+"
-        rf"(?:{MONTH_PATTERN})\s+\d{{1,2}},\s+\d{{4}}"
-    )
-
-    program_name = re.split(
-        pattern,
-        remaining_text,
-        maxsplit=1,
-        flags=re.IGNORECASE,
-    )[0]
-
-    return re.sub(r"\s+", " ", program_name).strip()
-
-
-def merge_application_rows(
-    source_data: pd.DataFrame,
-) -> pd.DataFrame:
-    """Merge program rows with their following applicant-detail rows."""
-    merged_records = []
-
-    detail_columns = [
-        "comments",
-        "applicant_status",
-        "acceptance_date",
-        "rejection_date",
-        "start_term",
-        "student_type",
-        "gre_score",
-        "gre_v_score",
-        "gpa",
-        "gre_aw",
-    ]
-
-    for row_number in range(len(source_data)):
-        current_row = source_data.iloc[row_number]
-
-        if pd.isna(current_row.get("degree")):
-            continue
-
-        if pd.isna(current_row.get("raw_listing")):
-            continue
-
-        record = current_row.copy()
-
-        if row_number + 1 < len(source_data):
-            next_row = source_data.iloc[row_number + 1]
-
-            if pd.isna(next_row.get("degree")):
-                for column in detail_columns:
-                    if (
-                        column in source_data.columns
-                        and pd.notna(next_row.get(column))
-                    ):
-                        record[column] = next_row[column]
-
-        merged_records.append(record)
-
-    return pd.DataFrame(merged_records).reset_index(drop=True)
+    return text
 
 
 def load_data(path: Path) -> pd.DataFrame:
-    """Load, merge, extract, and clean the Module 8 dataset."""
+    """Load the Module 9 clustered dataset and clean program names."""
     if not path.exists():
         raise FileNotFoundError(
-            f"Dataset not found: {path.resolve()}"
+            f"Input dataset was not found: {path.resolve()}"
         )
 
-    source_data = pd.read_csv(path)
+    dataframe = pd.read_csv(path)
 
-    required_columns = {
-        "university",
-        "degree",
-        "raw_listing",
-        "gre_score",
-        "gre_v_score",
-    }
-
-    missing_columns = required_columns.difference(
-        source_data.columns
-    )
-
-    if missing_columns:
+    if "program_name" not in dataframe.columns:
         raise KeyError(
-            "Missing required columns: "
-            + ", ".join(sorted(missing_columns))
+            "Expected a 'program_name' column in the input dataset."
         )
 
-    dataframe = merge_application_rows(source_data)
+    dataframe = dataframe.copy()
 
-    dataframe["program_name"] = dataframe.apply(
-        extract_program_name,
-        axis=1,
-    )
+    dataframe["program_name"] = dataframe[
+        "program_name"
+    ].apply(clean_program_name)
 
-    invalid_programs = {
-        "",
-        "none",
-        "nan",
-        "unknown",
-    }
+    dataframe = dataframe.loc[
+        dataframe["program_name"].ne("")
+    ].copy()
 
-    valid_rows = ~(
-        dataframe["program_name"]
-        .astype(str)
-        .str.strip()
-        .str.lower()
-        .isin(invalid_programs)
-    )
+    dataframe.reset_index(drop=True, inplace=True)
 
-    dataframe = dataframe.loc[valid_rows].copy()
-
-    dataframe["program_name"] = (
-        dataframe["program_name"]
-        .astype(str)
-        .str.strip()
-        .str.replace(r"\s+", " ", regex=True)
-    )
-
-    dataframe["university"] = (
-        dataframe["university"]
-        .fillna("Unknown")
-        .astype(str)
-        .str.strip()
-    )
-
-    score_columns = [
-        "gre_score",
-        "gre_v_score",
-        "gpa",
-        "gre_aw",
-    ]
-
-    for score_column in score_columns:
-        if score_column in dataframe.columns:
-            dataframe[score_column] = pd.to_numeric(
-                dataframe[score_column],
-                errors="coerce",
-            )
-
-    return dataframe.reset_index(drop=True)
+    return dataframe
 
 
-def create_program_vectors(
+def create_tfidf_features(
     dataframe: pd.DataFrame,
 ):
-    """Convert graduate program names into TF-IDF vectors."""
+    """Convert program names into TF-IDF feature vectors."""
     vectorizer = TfidfVectorizer(
         stop_words="english",
         lowercase=True,
@@ -205,41 +81,19 @@ def create_program_vectors(
         dataframe["program_name"].astype(str)
     )
 
+    print(f"TF-IDF shape: {vectors.shape}")
+
     return vectors
 
 
-def create_initial_clusters(
-    dense_vectors: np.ndarray,
-) -> tuple[np.ndarray, np.ndarray]:
-    """Create a two-component PCA model and 50 K-Means clusters."""
-    pca = PCA(
-        n_components=2,
-        random_state=RANDOM_STATE,
-    )
-
-    reduced_vectors = pca.fit_transform(dense_vectors)
-
-    model = KMeans(
-        n_clusters=INITIAL_CLUSTER_COUNT,
-        max_iter=100,
-        n_init=5,
-        random_state=RANDOM_STATE,
-    )
-
-    labels = model.fit_predict(reduced_vectors)
-
-    print(f"Initial PCA shape: {reduced_vectors.shape}")
-    print(f"Initial PCA configuration: {pca}")
-
-    return reduced_vectors, labels
-
-
-def create_analysis_features(
-    dense_vectors: np.ndarray,
+def create_pca_features(
+    vectors,
 ) -> np.ndarray:
-    """Create higher-dimensional PCA features for final analysis."""
+    """Reduce TF-IDF features for K-Means training."""
+    dense_vectors = vectors.toarray()
+
     component_count = min(
-        ANALYSIS_COMPONENTS,
+        PCA_COMPONENTS,
         dense_vectors.shape[0],
         dense_vectors.shape[1],
     )
@@ -250,511 +104,123 @@ def create_analysis_features(
         random_state=RANDOM_STATE,
     )
 
-    analysis_features = pca.fit_transform(dense_vectors)
+    reduced_features = pca.fit_transform(dense_vectors)
 
-    print(f"Analysis PCA shape: {analysis_features.shape}")
-    print(f"Analysis PCA configuration: {pca}")
+    print(f"PCA output shape: {reduced_features.shape}")
 
-    return analysis_features
-
-
-def save_initial_cluster_plot(
-    reduced_vectors: np.ndarray,
-    labels: np.ndarray,
-    output_path: Path,
-) -> None:
-    """Save the initial two-dimensional cluster visualization."""
-    plt.figure(figsize=(11, 8))
-
-    plt.scatter(
-        reduced_vectors[:, 0],
-        reduced_vectors[:, 1],
-        c=labels,
-        cmap="tab20",
-        s=35,
-        alpha=0.75,
-        label="Graduate program clusters",
-    )
-
-    plt.title("K-Means Clustering of Programs")
-    plt.xlabel("K-Means Distance Direction 1")
-    plt.ylabel("K-Means Distance Direction 2")
-    plt.legend(loc="best")
-    plt.tight_layout()
-
-    plt.savefig(
-        output_path,
-        dpi=300,
-        bbox_inches="tight",
-    )
-
-    plt.close()
+    return reduced_features
 
 
-def save_clustered_dataframe(
-    dataframe: pd.DataFrame,
-    output_path: Path,
-) -> None:
-    """Save a 100-row DataFrame-style image with cluster labels."""
-    preview = dataframe[
-        [
-            "program_name",
-            "university",
-            "initial_cluster",
-        ]
-    ].head(100).copy()
-
-    preview.columns = [
-        "program",
-        "University",
-        "cluster",
-    ]
-
-    dataframe_text = preview.to_string(
-        index=True,
-        max_colwidth=42,
-        justify="right",
-    )
-
-    figure = plt.figure(figsize=(18, 30))
-
-    plt.text(
-        0.01,
-        0.99,
-        dataframe_text,
-        family="monospace",
-        fontsize=6,
-        verticalalignment="top",
-        horizontalalignment="left",
-    )
-
-    plt.title(
-        "Graduate Program DataFrame with Initial Cluster Labels",
-        fontsize=14,
-        pad=18,
-    )
-
-    plt.axis("off")
-    plt.tight_layout()
-
-    figure.savefig(
-        output_path,
-        dpi=300,
-        bbox_inches="tight",
-    )
-
-    plt.close(figure)
-
-
-def create_elbow_plot(
-    analysis_features: np.ndarray,
-    output_path: Path,
-) -> None:
-    """Calculate inertia for cluster counts from 1 through 100."""
-    cluster_counts = list(range(1, 101))
-    inertia_values = []
-
-    print("\nRunning elbow analysis from k=1 to k=100...")
-
-    for cluster_count in cluster_counts:
-        model = KMeans(
-            n_clusters=cluster_count,
-            max_iter=100,
-            n_init=5,
-            random_state=RANDOM_STATE,
-        )
-
-        model.fit(analysis_features)
-        inertia_values.append(model.inertia_)
-
-        print(
-            f"k={cluster_count:3d}, "
-            f"inertia={model.inertia_:,.2f}"
-        )
-
-    plt.figure(figsize=(12, 7))
-
-    plt.plot(
-        cluster_counts,
-        inertia_values,
-        marker="o",
-        markersize=3,
-        linewidth=1.5,
-        label="K-Means inertia",
-    )
-
-    plt.axvline(
-        x=FINAL_CLUSTER_COUNT,
-        linestyle="--",
-        label=f"Selected cluster count: {FINAL_CLUSTER_COUNT}",
-    )
-
-    plt.title("Elbow Method for Graduate Program Clustering")
-    plt.xlabel("Number of Clusters, k")
-    plt.ylabel("Inertia (Within-Cluster Sum of Squares)")
-    plt.grid(alpha=0.3)
-    plt.legend()
-    plt.tight_layout()
-
-    plt.savefig(
-        output_path,
-        dpi=300,
-        bbox_inches="tight",
-    )
-
-    plt.close()
-
-
-def run_final_clustering(
-    analysis_features: np.ndarray,
-) -> np.ndarray:
-    """Run final K-Means clustering using 85 clusters."""
-    model = KMeans(
-        n_clusters=FINAL_CLUSTER_COUNT,
-        max_iter=100,
-        n_init=5,
+def create_kmeans_model() -> KMeans:
+    """Create the required K-Means model configuration."""
+    return KMeans(
+        n_clusters=N_CLUSTERS,
+        max_iter=MAX_ITER,
+        n_init=N_INIT,
         random_state=RANDOM_STATE,
     )
 
-    labels = model.fit_predict(analysis_features)
 
-    print(
-        "\nFinal clustering completed with "
-        f"{len(np.unique(labels))} clusters."
+def configure_mlflow() -> None:
+    """Configure MLflow tracking and experiment selection."""
+    mlflow.set_tracking_uri(TRACKING_URI)
+
+    mlflow.set_experiment(
+        EXPERIMENT_NAME
     )
 
-    return labels
 
+def train_and_log_model(
+    features: np.ndarray,
+) -> KMeans:
+    """Train K-Means and log parameters, metric, and model to MLflow."""
+    params = {
+        "n_clusters": N_CLUSTERS,
+        "max_iter": MAX_ITER,
+        "n_init": N_INIT,
+        "random_state": RANDOM_STATE,
+    }
 
-def identify_cluster(
-    dataframe: pd.DataFrame,
-    keywords: list[str],
-    description: str,
-) -> int:
-    """Find the cluster with the highest number of keyword matches."""
-    program_names = (
-        dataframe["program_name"]
-        .fillna("")
-        .astype(str)
-        .str.lower()
-    )
+    model = create_kmeans_model()
 
-    pattern = "|".join(
-        re.escape(keyword.lower())
-        for keyword in keywords
-    )
+    with mlflow.start_run(
+        run_name=RUN_NAME
+    ):
+        model.fit(features)
 
-    matching_rows = dataframe.loc[
-        program_names.str.contains(
-            pattern,
-            regex=True,
-            na=False,
-        )
-    ]
+        mlflow.log_params(params)
 
-    if matching_rows.empty:
-        raise ValueError(
-            f"No program names matched {description}."
+        mlflow.log_metric(
+            "inertia",
+            float(model.inertia_),
         )
 
-    cluster_counts = matching_rows[
-        "final_cluster"
-    ].value_counts()
-
-    selected_cluster = int(cluster_counts.index[0])
-    matching_count = int(cluster_counts.iloc[0])
-
-    print(f"\n{description} cluster: {selected_cluster}")
-    print(
-        "Keyword-matching records in selected cluster:",
-        matching_count,
-    )
-
-    examples = (
-        matching_rows.loc[
-            matching_rows["final_cluster"] == selected_cluster,
-            "program_name",
-        ]
-        .drop_duplicates()
-        .head(12)
-        .tolist()
-    )
-
-    print(f"Example {description} programs:")
-
-    for program_name in examples:
-        print(f"  - {program_name}")
-
-    return selected_cluster
-
-
-def get_cluster_score_data(
-    dataframe: pd.DataFrame,
-    cluster_number: int,
-) -> pd.DataFrame:
-    """Return GRE observations from a selected program cluster."""
-    cluster_data = dataframe.loc[
-        dataframe["final_cluster"] == cluster_number,
-        [
-            "program_name",
-            "university",
-            "gre_score",
-            "gre_v_score",
-        ],
-    ].copy()
-
-    cluster_data["gre_score"] = pd.to_numeric(
-        cluster_data["gre_score"],
-        errors="coerce",
-    )
-
-    cluster_data["gre_v_score"] = pd.to_numeric(
-        cluster_data["gre_v_score"],
-        errors="coerce",
-    )
-
-    return cluster_data.dropna(
-        subset=["gre_score", "gre_v_score"],
-        how="all",
-    )
-
-
-def print_score_summary(
-    cluster_data: pd.DataFrame,
-    description: str,
-) -> None:
-    """Print GRE descriptive statistics for a selected cluster."""
-    print(f"\n{description} GRE summary:")
-
-    print(
-        cluster_data[
-            ["gre_score", "gre_v_score"]
-        ]
-        .describe()
-        .round(2)
-    )
-
-
-def save_gre_boxplot(
-    cluster_data: pd.DataFrame,
-    description: str,
-    output_path: Path,
-) -> None:
-    """Save GRE and GRE Verbal boxplots for one program cluster."""
-    gre_scores = cluster_data["gre_score"].dropna()
-    gre_verbal_scores = cluster_data["gre_v_score"].dropna()
-
-    if gre_scores.empty and gre_verbal_scores.empty:
-        raise ValueError(
-            f"No GRE values were available for {description}."
+        mlflow.set_tag(
+            "model_type",
+            "KMeans Clustering",
         )
 
-    plot_values = []
-    plot_labels = []
+        mlflow.set_tag(
+            "module",
+            "Module 11",
+        )
 
-    if not gre_scores.empty:
-        plot_values.append(gre_scores)
-        plot_labels.append("GRE")
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            name=MODEL_ARTIFACT_NAME,
+            registered_model_name="Clustering",
+        )
 
-    if not gre_verbal_scores.empty:
-        plot_values.append(gre_verbal_scores)
-        plot_labels.append("GRE V")
+        print("\nMLflow run completed successfully.")
+        print(f"Tracking URI: {TRACKING_URI}")
+        print(f"Experiment: {EXPERIMENT_NAME}")
+        print(f"Run name: {RUN_NAME}")
+        print(f"Inertia: {model.inertia_:,.4f}")
 
-    plt.figure(figsize=(10, 7))
-
-    plt.boxplot(
-        plot_values,
-        tick_labels=plot_labels,
-        showmeans=True,
-    )
-
-    plt.plot(
-        [],
-        [],
-        label="Box shows the interquartile range",
-    )
-
-    plt.title(
-        f"GRE and GRE Verbal Scores for {description} Programs"
-    )
-    plt.xlabel("GRE Component")
-    plt.ylabel("GRE Score (points)")
-    plt.grid(axis="y", alpha=0.3)
-    plt.legend()
-    plt.tight_layout()
-
-    plt.savefig(
-        output_path,
-        dpi=300,
-        bbox_inches="tight",
-    )
-
-    plt.close()
+    return model
 
 
-def analyze_required_programs(
+def print_model_summary(
     dataframe: pd.DataFrame,
+    model: KMeans,
 ) -> None:
-    """Analyze Computer Science and Philosophy program clusters."""
-    computer_science_cluster = identify_cluster(
-        dataframe,
-        [
-            "computer science",
-            "computer science and engineering",
-            "computing",
-            "software engineering",
-            "informatics",
-        ],
-        "Computer Science",
-    )
-
-    philosophy_cluster = identify_cluster(
-        dataframe,
-        [
-            "philosophy",
-            "philosophical",
-        ],
-        "Philosophy",
-    )
-
-    computer_science_data = get_cluster_score_data(
-        dataframe,
-        computer_science_cluster,
-    )
-
-    philosophy_data = get_cluster_score_data(
-        dataframe,
-        philosophy_cluster,
-    )
-
-    print(
-        "\nComputer Science rows with GRE information:",
-        len(computer_science_data),
-    )
-
-    print(
-        "Philosophy rows with GRE information:",
-        len(philosophy_data),
-    )
-
-    print_score_summary(
-        computer_science_data,
-        "Computer Science",
-    )
-
-    print_score_summary(
-        philosophy_data,
-        "Philosophy",
-    )
-
-    save_gre_boxplot(
-        computer_science_data,
-        "Computer Science",
-        COMPUTER_SCIENCE_PATH,
-    )
-
-    save_gre_boxplot(
-        philosophy_data,
-        "Philosophy",
-        PHILOSOPHY_PATH,
-    )
-
-    print(
-        "\nConclusion: The Computer Science cluster contains GRE scores "
-    "from multiple scoring scales, with values spanning both the "
-    "older combined GRE format and the newer section-based format. "
-    "This results in unusually wide score distributions compared "
-    "with the Philosophy cluster. These inconsistencies indicate "
-    "that additional data cleaning and score normalization are "
-    "required before making meaningful comparisons between "
-    "graduate programs."
-    )
-
-
-def print_dataset_summary(
-    dataframe: pd.DataFrame,
-) -> None:
-    """Print the dataset information required by the assignment."""
-    print(f"Number of Entries: {len(dataframe):,}")
-
-    print(
-        "Number of Program Input Names:",
-        f"{dataframe['program_name'].nunique():,}",
-    )
-
-    print(
-        "Rows with GRE scores:",
-        f"{dataframe['gre_score'].notna().sum():,}",
-    )
-
-    print(
-        "Rows with GRE Verbal scores:",
-        f"{dataframe['gre_v_score'].notna().sum():,}",
-    )
+    """Print a concise summary of the completed clustering run."""
+    print("\nModel Summary")
+    print("-" * 40)
+    print(f"Rows used: {len(dataframe):,}")
+    print(f"Clusters: {model.n_clusters}")
+    print(f"Max iterations: {model.max_iter}")
+    print(f"n_init: {model.n_init}")
+    print(f"Random state: {model.random_state}")
+    print(f"Inertia: {model.inertia_:,.4f}")
 
 
 def main() -> None:
-    """Run the complete Module 9 clustering workflow."""
-    dataframe = load_data(DATA_PATH)
+    """Run the complete Module 11 MLOps clustering workflow."""
+    configure_mlflow()
 
-    print_dataset_summary(dataframe)
-
-    vectors = create_program_vectors(dataframe)
-
-    print("\nTF-IDF matrix shape:")
-    print(vectors.shape)
-
-    print("\nTF-IDF sparse matrix:")
-    print(vectors)
-
-    dense_vectors = vectors.toarray()
-
-    reduced_vectors, initial_labels = create_initial_clusters(
-        dense_vectors
+    dataframe = load_data(
+        DATA_PATH
     )
 
-    dataframe["initial_cluster"] = initial_labels
+    print(f"Rows loaded: {len(dataframe):,}")
 
-    save_initial_cluster_plot(
-        reduced_vectors,
-        initial_labels,
-        INITIAL_CLUSTER_PATH,
+    vectors = create_tfidf_features(
+        dataframe
     )
 
-    save_clustered_dataframe(
+    features = create_pca_features(
+        vectors
+    )
+
+    model = train_and_log_model(
+        features
+    )
+
+    print_model_summary(
         dataframe,
-        CLUSTERED_DATAFRAME_PATH,
+        model,
     )
-
-    analysis_features = create_analysis_features(
-        dense_vectors
-    )
-
-    create_elbow_plot(
-        analysis_features,
-        ELBOW_PATH,
-    )
-
-    final_labels = run_final_clustering(
-        analysis_features
-    )
-
-    dataframe["final_cluster"] = final_labels
-
-    analyze_required_programs(dataframe)
-
-    dataframe.to_csv(
-        FINAL_DATA_PATH,
-        index=False,
-    )
-
-    print("\nRequired files created:")
-    print(f"Saved: {INITIAL_CLUSTER_PATH}")
-    print(f"Saved: {CLUSTERED_DATAFRAME_PATH}")
-    print(f"Saved: {ELBOW_PATH}")
-    print(f"Saved: {COMPUTER_SCIENCE_PATH}")
-    print(f"Saved: {PHILOSOPHY_PATH}")
-    print(f"Saved: {FINAL_DATA_PATH}")
 
 
 if __name__ == "__main__":

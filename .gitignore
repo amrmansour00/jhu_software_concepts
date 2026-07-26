@@ -3,3 +3,18 @@ __pycache__/
 .pytest_cache/
 .env
 docs/build/
+# Python virtual environments
+.venv/
+module_11/.venv/
+
+# MLflow local files
+mlruns/
+mlartifacts/
+mlflow.db
+module_11/mlruns/
+module_11/mlartifacts/
+module_11/mlflow.db
+
+# Python cache
+__pycache__/
+*.pyc
