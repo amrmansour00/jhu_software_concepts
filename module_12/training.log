@@ -1,0 +1,123 @@
+Module 12 Neural Network Training Log
+======================================================================
+
+RANDOM_SEED = 42
+HIDDEN_UNITS = 6
+LEARNING_RATE = 0.05
+MAX_EPOCHS = 10000
+PATIENCE = 100
+
+Rows used after filtering: 12712
+Training set size: 10169
+Test set size: 2543
+
+TRAINING PRINTOUTS
+----------------------------------------------------------------------
+Epoch   100 | Train MSE: 0.247902 | Test MSE: 0.248268 | Test Accuracy: 0.5411
+Epoch   200 | Train MSE: 0.247544 | Test MSE: 0.247951 | Test Accuracy: 0.5411
+Epoch   300 | Train MSE: 0.247168 | Test MSE: 0.247594 | Test Accuracy: 0.5411
+Epoch   400 | Train MSE: 0.246737 | Test MSE: 0.247179 | Test Accuracy: 0.5411
+Epoch   500 | Train MSE: 0.246224 | Test MSE: 0.246683 | Test Accuracy: 0.5411
+Epoch   600 | Train MSE: 0.245599 | Test MSE: 0.246079 | Test Accuracy: 0.5411
+Epoch   700 | Train MSE: 0.244829 | Test MSE: 0.245333 | Test Accuracy: 0.5411
+Epoch   800 | Train MSE: 0.243874 | Test MSE: 0.244409 | Test Accuracy: 0.5411
+Epoch   900 | Train MSE: 0.242694 | Test MSE: 0.243267 | Test Accuracy: 0.5411
+Epoch  1000 | Train MSE: 0.241245 | Test MSE: 0.241866 | Test Accuracy: 0.5411
+Epoch  1100 | Train MSE: 0.239490 | Test MSE: 0.240169 | Test Accuracy: 0.5411
+Epoch  1200 | Train MSE: 0.237397 | Test MSE: 0.238148 | Test Accuracy: 0.5419
+Epoch  1300 | Train MSE: 0.234953 | Test MSE: 0.235791 | Test Accuracy: 0.5525
+Epoch  1400 | Train MSE: 0.232171 | Test MSE: 0.233112 | Test Accuracy: 0.6720
+Epoch  1500 | Train MSE: 0.229094 | Test MSE: 0.230155 | Test Accuracy: 0.7157
+Epoch  1600 | Train MSE: 0.225800 | Test MSE: 0.226998 | Test Accuracy: 0.7169
+Epoch  1700 | Train MSE: 0.222397 | Test MSE: 0.223745 | Test Accuracy: 0.7184
+Epoch  1800 | Train MSE: 0.219007 | Test MSE: 0.220516 | Test Accuracy: 0.7200
+Epoch  1900 | Train MSE: 0.215751 | Test MSE: 0.217427 | Test Accuracy: 0.7200
+Epoch  2000 | Train MSE: 0.212733 | Test MSE: 0.214578 | Test Accuracy: 0.7208
+Epoch  2100 | Train MSE: 0.210023 | Test MSE: 0.212034 | Test Accuracy: 0.7208
+Epoch  2200 | Train MSE: 0.207661 | Test MSE: 0.209831 | Test Accuracy: 0.7212
+Epoch  2300 | Train MSE: 0.205652 | Test MSE: 0.207971 | Test Accuracy: 0.7212
+Epoch  2400 | Train MSE: 0.203977 | Test MSE: 0.206434 | Test Accuracy: 0.7220
+Epoch  2500 | Train MSE: 0.202604 | Test MSE: 0.205186 | Test Accuracy: 0.7220
+Epoch  2600 | Train MSE: 0.201493 | Test MSE: 0.204187 | Test Accuracy: 0.7220
+Epoch  2700 | Train MSE: 0.200602 | Test MSE: 0.203395 | Test Accuracy: 0.7220
+Epoch  2800 | Train MSE: 0.199891 | Test MSE: 0.202774 | Test Accuracy: 0.7220
+Epoch  2900 | Train MSE: 0.199328 | Test MSE: 0.202288 | Test Accuracy: 0.7220
+Epoch  3000 | Train MSE: 0.198881 | Test MSE: 0.201911 | Test Accuracy: 0.7220
+Epoch  3100 | Train MSE: 0.198528 | Test MSE: 0.201618 | Test Accuracy: 0.7220
+Epoch  3200 | Train MSE: 0.198248 | Test MSE: 0.201391 | Test Accuracy: 0.7220
+Epoch  3300 | Train MSE: 0.198025 | Test MSE: 0.201215 | Test Accuracy: 0.7220
+Epoch  3400 | Train MSE: 0.197848 | Test MSE: 0.201079 | Test Accuracy: 0.7220
+Epoch  3500 | Train MSE: 0.197706 | Test MSE: 0.200972 | Test Accuracy: 0.7220
+Epoch  3600 | Train MSE: 0.197592 | Test MSE: 0.200889 | Test Accuracy: 0.7220
+Epoch  3700 | Train MSE: 0.197500 | Test MSE: 0.200824 | Test Accuracy: 0.7220
+Epoch  3800 | Train MSE: 0.197424 | Test MSE: 0.200773 | Test Accuracy: 0.7220
+Epoch  3900 | Train MSE: 0.197363 | Test MSE: 0.200732 | Test Accuracy: 0.7220
+Epoch  4000 | Train MSE: 0.197312 | Test MSE: 0.200698 | Test Accuracy: 0.7220
+Epoch  4100 | Train MSE: 0.197269 | Test MSE: 0.200671 | Test Accuracy: 0.7220
+Epoch  4200 | Train MSE: 0.197234 | Test MSE: 0.200649 | Test Accuracy: 0.7220
+Epoch  4300 | Train MSE: 0.197203 | Test MSE: 0.200630 | Test Accuracy: 0.7220
+Epoch  4400 | Train MSE: 0.197178 | Test MSE: 0.200614 | Test Accuracy: 0.7220
+Epoch  4500 | Train MSE: 0.197155 | Test MSE: 0.200600 | Test Accuracy: 0.7220
+Epoch  4600 | Train MSE: 0.197136 | Test MSE: 0.200588 | Test Accuracy: 0.7220
+Epoch  4700 | Train MSE: 0.197119 | Test MSE: 0.200577 | Test Accuracy: 0.7220
+Epoch  4800 | Train MSE: 0.197105 | Test MSE: 0.200568 | Test Accuracy: 0.7220
+Epoch  4900 | Train MSE: 0.197092 | Test MSE: 0.200559 | Test Accuracy: 0.7220
+Epoch  5000 | Train MSE: 0.197080 | Test MSE: 0.200551 | Test Accuracy: 0.7220
+Epoch  5100 | Train MSE: 0.197070 | Test MSE: 0.200543 | Test Accuracy: 0.7220
+Epoch  5200 | Train MSE: 0.197061 | Test MSE: 0.200537 | Test Accuracy: 0.7220
+Epoch  5300 | Train MSE: 0.197052 | Test MSE: 0.200530 | Test Accuracy: 0.7220
+Epoch  5400 | Train MSE: 0.197045 | Test MSE: 0.200524 | Test Accuracy: 0.7220
+Epoch  5500 | Train MSE: 0.197038 | Test MSE: 0.200519 | Test Accuracy: 0.7220
+Epoch  5600 | Train MSE: 0.197032 | Test MSE: 0.200514 | Test Accuracy: 0.7220
+Epoch  5700 | Train MSE: 0.197026 | Test MSE: 0.200509 | Test Accuracy: 0.7220
+Epoch  5800 | Train MSE: 0.197021 | Test MSE: 0.200505 | Test Accuracy: 0.7220
+Epoch  5900 | Train MSE: 0.197016 | Test MSE: 0.200500 | Test Accuracy: 0.7220
+Epoch  6000 | Train MSE: 0.197012 | Test MSE: 0.200497 | Test Accuracy: 0.7220
+Epoch  6100 | Train MSE: 0.197007 | Test MSE: 0.200493 | Test Accuracy: 0.7220
+Epoch  6200 | Train MSE: 0.197004 | Test MSE: 0.200490 | Test Accuracy: 0.7220
+Epoch  6300 | Train MSE: 0.197000 | Test MSE: 0.200487 | Test Accuracy: 0.7220
+Epoch  6400 | Train MSE: 0.196997 | Test MSE: 0.200484 | Test Accuracy: 0.7220
+Epoch  6500 | Train MSE: 0.196994 | Test MSE: 0.200481 | Test Accuracy: 0.7220
+Epoch  6600 | Train MSE: 0.196991 | Test MSE: 0.200479 | Test Accuracy: 0.7220
+Epoch  6700 | Train MSE: 0.196988 | Test MSE: 0.200476 | Test Accuracy: 0.7220
+Epoch  6800 | Train MSE: 0.196986 | Test MSE: 0.200474 | Test Accuracy: 0.7220
+Epoch  6900 | Train MSE: 0.196983 | Test MSE: 0.200472 | Test Accuracy: 0.7220
+Epoch  7000 | Train MSE: 0.196981 | Test MSE: 0.200470 | Test Accuracy: 0.7220
+Epoch  7100 | Train MSE: 0.196979 | Test MSE: 0.200468 | Test Accuracy: 0.7220
+Epoch  7200 | Train MSE: 0.196977 | Test MSE: 0.200467 | Test Accuracy: 0.7220
+Epoch  7300 | Train MSE: 0.196975 | Test MSE: 0.200465 | Test Accuracy: 0.7220
+Epoch  7400 | Train MSE: 0.196973 | Test MSE: 0.200463 | Test Accuracy: 0.7220
+Epoch  7500 | Train MSE: 0.196971 | Test MSE: 0.200462 | Test Accuracy: 0.7220
+Epoch  7600 | Train MSE: 0.196969 | Test MSE: 0.200460 | Test Accuracy: 0.7220
+Epoch  7700 | Train MSE: 0.196968 | Test MSE: 0.200459 | Test Accuracy: 0.7220
+Epoch  7800 | Train MSE: 0.196966 | Test MSE: 0.200458 | Test Accuracy: 0.7220
+Epoch  7900 | Train MSE: 0.196964 | Test MSE: 0.200456 | Test Accuracy: 0.7220
+Epoch  8000 | Train MSE: 0.196963 | Test MSE: 0.200455 | Test Accuracy: 0.7220
+Epoch  8100 | Train MSE: 0.196961 | Test MSE: 0.200454 | Test Accuracy: 0.7220
+Epoch  8200 | Train MSE: 0.196960 | Test MSE: 0.200452 | Test Accuracy: 0.7220
+Epoch  8300 | Train MSE: 0.196958 | Test MSE: 0.200451 | Test Accuracy: 0.7228
+Epoch  8400 | Train MSE: 0.196957 | Test MSE: 0.200450 | Test Accuracy: 0.7228
+Epoch  8500 | Train MSE: 0.196955 | Test MSE: 0.200449 | Test Accuracy: 0.7228
+Epoch  8600 | Train MSE: 0.196954 | Test MSE: 0.200448 | Test Accuracy: 0.7228
+Epoch  8700 | Train MSE: 0.196953 | Test MSE: 0.200447 | Test Accuracy: 0.7228
+Epoch  8800 | Train MSE: 0.196951 | Test MSE: 0.200445 | Test Accuracy: 0.7228
+Epoch  8900 | Train MSE: 0.196950 | Test MSE: 0.200444 | Test Accuracy: 0.7228
+Epoch  9000 | Train MSE: 0.196949 | Test MSE: 0.200443 | Test Accuracy: 0.7228
+Epoch  9100 | Train MSE: 0.196947 | Test MSE: 0.200442 | Test Accuracy: 0.7228
+Epoch  9200 | Train MSE: 0.196946 | Test MSE: 0.200441 | Test Accuracy: 0.7228
+Epoch  9300 | Train MSE: 0.196945 | Test MSE: 0.200440 | Test Accuracy: 0.7228
+Epoch  9400 | Train MSE: 0.196943 | Test MSE: 0.200438 | Test Accuracy: 0.7228
+Epoch  9500 | Train MSE: 0.196942 | Test MSE: 0.200437 | Test Accuracy: 0.7228
+Epoch  9600 | Train MSE: 0.196941 | Test MSE: 0.200436 | Test Accuracy: 0.7228
+Epoch  9700 | Train MSE: 0.196939 | Test MSE: 0.200435 | Test Accuracy: 0.7228
+Epoch  9800 | Train MSE: 0.196938 | Test MSE: 0.200434 | Test Accuracy: 0.7228
+Epoch  9900 | Train MSE: 0.196937 | Test MSE: 0.200432 | Test Accuracy: 0.7228
+Epoch 10000 | Train MSE: 0.196935 | Test MSE: 0.200431 | Test Accuracy: 0.7228
+
+FINAL MODEL EVALUATION
+----------------------------------------------------------------------
+Best epoch: 10000
+Stopping epoch: 10000
+Best test MSE: 0.200431
+Final training accuracy: 0.7283
+Final test accuracy: 0.7228
