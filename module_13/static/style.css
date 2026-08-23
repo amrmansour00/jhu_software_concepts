@@ -1,0 +1,293 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+header {
+    background: #102a43;
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+.actions {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+button {
+    background: #0077cc;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #005fa3;
+}
+
+button.secondary {
+    background: #2f855a;
+}
+
+.message {
+    background: #fff3cd;
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.results {
+    margin-top: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #102a43;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* =========================================================
+   Module 13 - Will You Get In? prediction page
+   ========================================================= */
+
+.nav-button {
+    display: inline-block;
+    background: #ffffff;
+    color: #102a43;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-button:hover {
+    background: #e9eef3;
+}
+
+.prediction-intro {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+.prediction-intro h2 {
+    color: #102a43;
+    margin-top: 0;
+}
+
+.disclaimer {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff3cd;
+    border-radius: 8px;
+    line-height: 1.5;
+}
+
+.prediction-form-card {
+    background: white;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 7px;
+    font-weight: bold;
+    color: #102a43;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e0;
+    border-radius: 7px;
+    font-size: 15px;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: 2px solid #0077cc;
+    border-color: #0077cc;
+}
+
+.submit-area {
+    margin-top: 25px;
+}
+
+.prediction-button {
+    padding: 13px 24px;
+    font-size: 16px;
+}
+
+.prediction-button:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+}
+
+.missing-note {
+    color: #66788a;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.error-message {
+    background: #fde8e8;
+    color: #8a1c1c;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.prediction-result {
+    background: white;
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.prediction-result h2 {
+    margin-top: 0;
+    color: #102a43;
+}
+
+.prediction-status {
+    display: inline-block;
+    padding: 12px 22px;
+    margin: 10px 0 20px;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.prediction-status.accepted {
+    background: #e6ffed;
+    color: #216e39;
+}
+
+.prediction-status.rejected {
+    background: #fde8e8;
+    color: #9b2c2c;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.score-card {
+    background: #f4f6f8;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.score-label {
+    display: block;
+    color: #66788a;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.score-value {
+    display: block;
+    color: #102a43;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.result-disclaimer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+    color: #66788a;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    .form-grid,
+    .score-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+.form-group-wide {
+    grid-column: 1 / -1;
+}
+
+.form-group small {
+    margin-top: 6px;
+    color: #66788a;
+    line-height: 1.4;
+}
+
+.result-explanation {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f4f6f8;
+    border-radius: 8px;
+}
+
+.result-explanation h3 {
+    margin-top: 0;
+    color: #102a43;
+}

@@ -1,0 +1,32 @@
+{
+    "source_model": "distilbert-base-uncased",
+    "tokenizer": "distilbert-base-uncased",
+    "max_length": 256,
+    "batch_size": 8,
+    "epochs_configured": 2,
+    "learning_rate": 2e-05,
+    "optimizer": "AdamW",
+    "device": "cpu",
+    "random_seed": 42,
+    "best_epoch": 1,
+    "best_test_loss": 0.5421556285456134,
+    "best_test_accuracy": 0.7388910735351947,
+    "label_mapping": {
+        "0": "Rejected",
+        "1": "Accepted"
+    },
+    "text_fields": [
+        "program_name",
+        "university"
+    ],
+    "non_text_fields": [
+        "degree",
+        "student_type",
+        "gpa",
+        "gre_score",
+        "gre_v_score",
+        "gre_aw",
+        "start_term"
+    ],
+    "model_input_template": "Program: <program_name>. University: <university>. Degree: <degree>. Citizenship: <student_type>. GPA: <gpa>. GRE: <gre_score>. GRE Verbal: <gre_v_score>. GRE Analytical Writing: <gre_aw>. Term: <start_term>."
+}

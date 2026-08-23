@@ -1,0 +1,9 @@
+Flask
+numpy
+pandas
+scikit-learn
+torch
+transformers
+psycopg2-binary
+requests
+beautifulsoup4

@@ -1,0 +1,28 @@
+{
+    "held_out_test_examples": 2543,
+    "accuracy": 0.739284309870232,
+    "precision": 0.7630180658873539,
+    "recall": 0.6200345423143351,
+    "f1_score": 0.6841353025250119,
+    "confusion_matrix": [
+        [
+            1162,
+            223
+        ],
+        [
+            440,
+            718
+        ]
+    ],
+    "true_negatives": 1162,
+    "false_positives": 223,
+    "false_negatives": 440,
+    "true_positives": 718,
+    "actual_rejected": 1385,
+    "actual_accepted": 1158,
+    "predicted_rejected": 1602,
+    "predicted_accepted": 941,
+    "majority_class_baseline": 0.5446323240267401,
+    "module_12_accuracy": 0.7228,
+    "improvement_over_module_12": 0.016484309870231972
+}

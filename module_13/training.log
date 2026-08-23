@@ -1,0 +1,53 @@
+MODULE 13 DISTILBERT TRAINING LOG
+======================================================================
+
+Model: distilbert-base-uncased
+Tokenizer: distilbert-base-uncased
+Maximum sequence length: 256
+Batch size: 8
+Epochs: 2
+Learning rate: 2e-05
+Optimizer: AdamW
+Device: cpu
+Random seed: 42
+
+Training set size: 10169
+Test set size: 2543
+
+REPRESENTATIVE TRAINING OUTPUT
+----------------------------------------------------------------------
+Epoch 1/2 | Batch 100/1272 | Average Train Loss: 0.6279
+Epoch 1/2 | Batch 200/1272 | Average Train Loss: 0.6091
+Epoch 1/2 | Batch 300/1272 | Average Train Loss: 0.5983
+Epoch 1/2 | Batch 400/1272 | Average Train Loss: 0.5881
+Epoch 1/2 | Batch 500/1272 | Average Train Loss: 0.5897
+Epoch 1/2 | Batch 600/1272 | Average Train Loss: 0.5863
+Epoch 1/2 | Batch 700/1272 | Average Train Loss: 0.5832
+Epoch 1/2 | Batch 800/1272 | Average Train Loss: 0.5855
+Epoch 1/2 | Batch 900/1272 | Average Train Loss: 0.5828
+Epoch 1/2 | Batch 1000/1272 | Average Train Loss: 0.5807
+Epoch 1/2 | Batch 1100/1272 | Average Train Loss: 0.5802
+Epoch 1/2 | Batch 1200/1272 | Average Train Loss: 0.5783
+Epoch 1/2 | Batch 1272/1272 | Average Train Loss: 0.5774
+Epoch 1 | Train Loss: 0.5774 | Test Loss: 0.5422 | Test Accuracy: 0.7389
+Epoch 2/2 | Batch 100/1272 | Average Train Loss: 0.5539
+Epoch 2/2 | Batch 200/1272 | Average Train Loss: 0.5407
+Epoch 2/2 | Batch 300/1272 | Average Train Loss: 0.5454
+Epoch 2/2 | Batch 400/1272 | Average Train Loss: 0.5374
+Epoch 2/2 | Batch 500/1272 | Average Train Loss: 0.5383
+Epoch 2/2 | Batch 600/1272 | Average Train Loss: 0.5401
+Epoch 2/2 | Batch 700/1272 | Average Train Loss: 0.5361
+Epoch 2/2 | Batch 800/1272 | Average Train Loss: 0.5362
+Epoch 2/2 | Batch 900/1272 | Average Train Loss: 0.5384
+Epoch 2/2 | Batch 1000/1272 | Average Train Loss: 0.5403
+Epoch 2/2 | Batch 1100/1272 | Average Train Loss: 0.5390
+Epoch 2/2 | Batch 1200/1272 | Average Train Loss: 0.5378
+Epoch 2/2 | Batch 1272/1272 | Average Train Loss: 0.5365
+Epoch 2 | Train Loss: 0.5365 | Test Loss: 0.5383 | Test Accuracy: 0.7310
+
+BEST CHECKPOINT
+----------------------------------------------------------------------
+Best epoch: 1
+Best test accuracy: 0.7389
+Best test loss: 0.5422
+Total training time: 306.14 minutes
