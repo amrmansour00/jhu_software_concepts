@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="portfolio-header">
+
+    <p class="eyebrow">
+        EN.605.256.81.SU26 Modern Software Concepts in Python
+    </p>
+
+    <h1>Software Concepts Portfolio</h1>
+
+    <p class="portfolio-intro">
+        A semester-long portfolio documenting the progression from
+        foundational Flask development and data engineering through
+        cloud deployment, analytics, machine learning, neural networks,
+        and pretrained transformer models.
+    </p>
+
+</section>
+
+
+<section class="project-grid">
+
+    {% for project in projects %}
+
+        <article class="project-card">
+
+            <div class="project-module">
+                Module {{ project.module }}
+            </div>
+
+            <h2>
+                {{ project.title }}
+            </h2>
+
+            <p class="project-overview">
+                {{ project.overview }}
+            </p>
+
+            <div class="learning-box">
+
+                <strong>What I learned</strong>
+
+                <p>
+                    {{ project.learning }}
+                </p>
+
+            </div>
+
+            <a
+                class="project-link"
+                href="{{ project.github_url }}"
+                target="_blank"
+                rel="noopener"
+            >
+                View project on GitHub
+            </a>
+
+        </article>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

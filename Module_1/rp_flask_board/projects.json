@@ -1,0 +1,95 @@
+{
+  "projects": [
+    {
+      "module": 1,
+      "title": "Personal Flask Website",
+      "overview": "Built a personal portfolio website using Flask, HTML, and CSS with separate Home, Contact, and Projects pages. The application was later refactored to use Flask Blueprints and a JSON-driven project portfolio.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/Module_1",
+      "learning": "I learned how Flask routes, templates, static assets, and Blueprints work together to create a maintainable web application."
+    },
+    {
+      "module": 2,
+      "title": "Graduate Admissions Web Scraping and Data Cleaning",
+      "overview": "Collected graduate admissions information and transformed raw website data into structured applicant records. The project introduced parsing, normalization, data cleaning, and reproducible dataset generation.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/Module_2",
+      "learning": "I learned that reliable data extraction and normalization are as important as the analysis that follows."
+    },
+    {
+      "module": 3,
+      "title": "PostgreSQL Analytics and Flask Integration",
+      "overview": "Extended the admissions project by loading records into PostgreSQL, querying the database, and displaying analytical results through a Flask application. The project connected data collection, persistence, querying, and presentation.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/Module_3",
+      "learning": "I learned how application logic, SQL queries, database persistence, and Flask can work as one end-to-end system."
+    },
+    {
+      "module": 4,
+      "title": "Testing, Coverage, and Documentation",
+      "overview": "Added automated testing, database-focused test scenarios, code coverage, and Sphinx documentation to the admissions application. The project emphasized software quality and reproducibility.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/Module_4",
+      "learning": "I learned how tests, coverage, configuration, and documentation make software more trustworthy and maintainable."
+    },
+    {
+      "module": 5,
+      "title": "Packaging, Dependency Analysis, and Database Hardening",
+      "overview": "Improved the project environment through dependency management, packaging, database security, and deployment-oriented documentation. The module focused on creating a more reproducible and professionally structured Python project.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/Module_5",
+      "learning": "I learned that reproducibility, least privilege, and dependency management are core parts of software engineering rather than administrative tasks."
+    },
+    {
+      "module": 6,
+      "title": "Containerized Services and Background Processing",
+      "overview": "Expanded the admissions system into a containerized multi-service architecture with background tasks, messaging, and analytics. The project introduced Docker-based services and asynchronous processing.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_6",
+      "learning": "I learned how distributed application components communicate and why service health, task state, and startup behavior matter."
+    },
+    {
+      "module": 7,
+      "title": "AWS S3, Notebook, and EC2 Deployment",
+      "overview": "Moved parts of the project workflow into AWS using S3, a hosted notebook environment, and EC2 deployment. The module focused on cloud storage, credential handling, reusable AWS access, and deployment.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_7",
+      "learning": "I learned how local Python applications can be extended into cloud workflows while keeping security and reproducibility in mind."
+    },
+    {
+      "module": 8,
+      "title": "Data Cleaning, Statistical Analysis, and Visualization",
+      "overview": "Performed deeper cleaning, feature engineering, statistical testing, outlier analysis, and visualization of the graduate admissions dataset. The project transformed raw records into analysis-ready information.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_8",
+      "learning": "I learned how data-quality decisions directly affect statistical conclusions and visual interpretation."
+    },
+    {
+      "module": 9,
+      "title": "K-Means Clustering",
+      "overview": "Applied TF-IDF, dimensionality reduction, and K-Means clustering to identify patterns across graduate programs and universities. The project included cluster selection, interpretation, and visualization.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_9",
+      "learning": "I learned how unsupervised learning can reveal structure in data even when no target label is available."
+    },
+    {
+      "module": 10,
+      "title": "Exploratory Data Analysis and Interactive Visualization",
+      "overview": "Created static and interactive visualizations to explore admissions trends and communicate analytical findings. The project combined exploratory questions with dashboard-style presentation.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_10",
+      "learning": "I learned how visualization design affects whether analytical results are understandable and actionable."
+    },
+    {
+      "module": 11,
+      "title": "K-Means MLOps Pipeline",
+      "overview": "Extended the clustering work into a more reproducible machine-learning pipeline with supporting documentation, execution evidence, and model information. The module introduced practical MLOps concepts.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_11",
+      "learning": "I learned how a machine-learning experiment becomes more useful when its execution, dependencies, artifacts, and outputs are reproducible."
+    },
+    {
+      "module": 12,
+      "title": "Neural Network from Scratch with NumPy",
+      "overview": "Implemented a two-layer neural network manually using NumPy to classify graduate admissions outcomes. The project covered preprocessing, forward propagation, sigmoid activation, loss calculation, backpropagation, and evaluation.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_12",
+      "learning": "I learned much more about neural-network mechanics by implementing the forward and backward passes directly instead of relying on a machine-learning framework."
+    },
+    {
+      "module": 13,
+      "title": "Fine-Tuned DistilBERT Admissions Classifier",
+      "overview": "Fine-tuned a pretrained DistilBERT transformer for admissions classification, evaluated it on held-out data, saved and reloaded the model, and deployed predictions through Flask. The final model achieved 73.93% held-out accuracy.",
+      "github_url": "https://github.com/amrmansour00/jhu_software_concepts/tree/main/module_13",
+      "learning": "I learned how pretrained language models can be adapted and deployed, while also seeing that greater model complexity does not automatically create a proportionally better solution."
+    }
+  ]
+}
