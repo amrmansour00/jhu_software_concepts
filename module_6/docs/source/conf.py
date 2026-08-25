@@ -2,7 +2,15 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../../src"))
+DOCS_SOURCE = os.path.abspath(os.path.dirname(__file__))
+MODULE_DIR = os.path.abspath(os.path.join(DOCS_SOURCE, "..", ".."))
+SRC_DIR = os.path.join(MODULE_DIR, "src")
+WEB_DIR = os.path.join(SRC_DIR, "web")
+WORKER_DIR = os.path.join(SRC_DIR, "worker")
+
+sys.path.insert(0, SRC_DIR)
+sys.path.insert(0, WEB_DIR)
+sys.path.insert(0, WORKER_DIR)
 
 # Configuration file for the Sphinx documentation builder.
 #

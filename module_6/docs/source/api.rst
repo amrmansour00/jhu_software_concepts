@@ -1,26 +1,42 @@
 API Reference
 =============
 
-Flask Application
------------------
+Database Loading
+----------------
 
-.. automodule:: app
+.. automodule:: db.load_data
    :members:
    :undoc-members:
    :show-inheritance:
 
-Data Loading
-------------
+Web Application
+---------------
 
-.. automodule:: load_data
+.. automodule:: run
    :members:
    :undoc-members:
    :show-inheritance:
 
-Query Data
-----------
+RabbitMQ Publisher
+------------------
+
+.. automodule:: publisher
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Query Helpers
+-------------
 
 .. automodule:: query_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Worker Consumer
+---------------
+
+.. automodule:: consumer
    :members:
    :undoc-members:
    :show-inheritance:

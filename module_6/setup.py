@@ -1,16 +1,29 @@
-"""Setup script for the GradCafe analytics project."""
+"""Package configuration for the Module 6 GradCafe microservices application."""
 
 from setuptools import setup
 
 setup(
-    name="gradcafe-analytics",
+    name="gradcafe-microservices",
     version="1.0.0",
-    description="Software assurance hardening for GradCafe analytics.",
-    py_modules=["app", "db", "load_data", "query_data"],
-    package_dir={"": "src"},
+    description=(
+        "Containerized GradCafe analytics application using Flask, "
+        "PostgreSQL, RabbitMQ, and a background worker."
+    ),
+    py_modules=[
+        "publisher",
+        "query_data",
+        "run",
+        "consumer",
+    ],
+    package_dir={
+        "": "src",
+        "web": "src/web",
+        "worker": "src/worker",
+    },
     install_requires=[
         "Flask",
         "psycopg[binary]",
         "python-dotenv",
+        "pika",
     ],
 )

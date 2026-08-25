@@ -1,171 +1,262 @@
-# GradCafe Analytics – Module 6
+# Module 6 - Containerized Microservices with Docker and RabbitMQ
 
-## Project Overview
+## Overview
 
-This project extends the GradCafe Analytics application into a containerized microservices architecture using Docker Compose, PostgreSQL, RabbitMQ, and Flask.
+This project extends the GradCafe Analytics application into a containerized microservices architecture using Flask, PostgreSQL, RabbitMQ, Docker, and Docker Compose.
 
-The system separates the web application from the background worker using asynchronous messaging. User requests are queued through RabbitMQ and processed independently by the worker service before updating the PostgreSQL database.
+The application separates the web interface from background data processing through asynchronous messaging. The Flask web service publishes tasks to RabbitMQ, while an independent worker consumes and processes those tasks before updating PostgreSQL.
 
----
+This architecture demonstrates service separation, asynchronous processing, container orchestration, automated testing, and software quality practices.
 
 ## Architecture
 
-The application consists of four services:
+The application consists of four primary services:
 
-- Web Service (Flask)
-- Worker Service
-- PostgreSQL Database
-- RabbitMQ Message Broker
+- **Web Service** - Flask application providing the user interface and analytics actions.
+- **Worker Service** - Background service that consumes RabbitMQ messages and processes data tasks.
+- **PostgreSQL** - Persistent database used for applicant data and SQL analytics.
+- **RabbitMQ** - Message broker used for asynchronous communication between the web service and worker.
 
-Workflow:
+### Processing Workflow
 
-1. User clicks **Pull Data**
-2. Flask publishes a message to RabbitMQ
-3. Worker consumes the message
-4. Worker processes applicant data
-5. PostgreSQL is updated
-6. User clicks **Update Analysis**
-7. SQL analytics are refreshed
+1. The user selects **Pull Data** in the Flask application.
+2. The web service publishes a task to RabbitMQ.
+3. RabbitMQ queues the task.
+4. The worker consumes the task from the queue.
+5. The worker processes the applicant data.
+6. PostgreSQL is updated.
+7. The user selects **Update Analysis**.
+8. The application queries PostgreSQL and displays the refreshed analytics.
 
----
+This design allows data processing to operate independently from the web request lifecycle.
 
 ## Project Structure
 
+```text
+module_6/
+|
+|-- src/
+|   |-- db/
+|   |   |-- __init__.py
+|   |   `-- load_data.py
+|   |
+|   |-- web/
+|   |   |-- publisher.py
+|   |   |-- query_data.py
+|   |   `-- run.py
+|   |
+|   |-- worker/
+|   |   `-- consumer.py
+|   |
+|   `-- data/
+|
+|-- tests/
+|   |-- conftest.py
+|   |-- test_db_load_data.py
+|   |-- test_publisher.py
+|   `-- test_web.py
+|
+|-- docs/
+|-- docker-compose.yml
+|-- requirements.txt
+|-- setup.py
+|-- pytest.ini
+`-- README.md
 ```
-Module_6/
-│
-├── src/
-│   ├── web/
-│   ├── worker/
-│   ├── db/
-│   └── data/
-│
-├── tests/
-├── docs/
-├── docker-compose.yml
-├── requirements.txt
-├── setup.py
-├── README.md
-```
-
----
 
 ## Installation
 
-Clone the repository:
-
-```bash
-git clone <repository-url>
-```
-
-Install dependencies:
+Install the project dependencies with:
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+Important runtime dependencies include:
+
+- Flask
+- psycopg
+- python-dotenv
+- pika
+
+Testing, documentation, and code-quality dependencies are also included in `requirements.txt`.
 
 ## Docker Deployment
 
-Build containers:
+Build the containers:
 
 ```bash
 docker compose build
 ```
 
-Start all services:
+Start the services:
 
 ```bash
 docker compose up -d
 ```
 
-Verify:
+Verify that the containers are running:
 
 ```bash
 docker compose ps
 ```
 
----
+The Docker Compose environment coordinates the Flask web application, RabbitMQ message broker, worker service, and PostgreSQL database.
 
 ## Running the Application
 
-Open:
+After the containers are running, open:
 
-```
+```text
 http://localhost:8080
 ```
 
-or in GitHub Codespaces:
+When using GitHub Codespaces, use the forwarded port URL associated with port `8080`.
 
+## RabbitMQ Processing
+
+The web service uses `pika` to communicate with RabbitMQ.
+
+When a data-processing request is initiated, the publisher sends a task to the message queue. The worker consumes the message and performs the background processing independently of the Flask request.
+
+This provides asynchronous communication between the application components and reduces coupling between the web and processing services.
+
+## Testing
+
+Run the complete automated test suite with:
+
+```bash
+pytest -v
 ```
-https://<codespace>-8080.app.github.dev
+
+Run the tests with source coverage:
+
+```bash
+pytest --cov=src --cov-report=term-missing -v
 ```
 
----
+Final validated test result:
 
-## Running Tests
-
+```text
+30 tests passed
+97% overall source coverage
 ```
-pytest
-```
 
----
+Coverage by source component:
+
+| Component | Coverage |
+| --- | ---: |
+| `src/db/__init__.py` | 100% |
+| `src/db/load_data.py` | 100% |
+| `src/web/publisher.py` | 100% |
+| `src/web/query_data.py` | 85% |
+| `src/web/run.py` | 94% |
+| `src/worker/consumer.py` | 97% |
+| **Overall** | **97%** |
+
+The tests cover database loading, RabbitMQ publishing and worker behavior, Flask web functionality, and supporting application logic.
 
 ## Code Quality
 
-```
-PYTHONPATH=src:src/web pylint src --fail-under=10
+Pylint is used for static code-quality analysis.
+
+Run:
+
+```bash
+pylint src --fail-under=10
 ```
 
-Current score:
+Final validated result:
 
-```
+```text
 10.00/10
 ```
 
----
-
 ## Documentation
 
-Read the Docs:
+Sphinx is used to generate project documentation.
 
-https://jhu-software-concepts-amr.readthedocs.io/en/latest/
+Build the documentation with:
 
----
+```bash
+docs/make.bat clean
+docs/make.bat html
+```
 
-## Deliverables
+The final Sphinx build completes successfully with no warnings.
 
-Included:
+The documentation includes:
 
-- Docker Compose configuration
-- Flask web service
-- RabbitMQ worker
-- PostgreSQL integration
-- Pytest test suite
-- Sphinx documentation
-- GitHub repository
-- Docker screenshots
-- RabbitMQ screenshots
-- Worker execution logs
+- Setup instructions
+- Architecture
+- API reference
+- Testing
+- Operational notes
 
----
+## Configuration and Security
+
+Environment-specific configuration should not be committed to source control.
+
+The project `.gitignore` excludes:
+
+```text
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+docs/build/
+```
+
+Credentials and database configuration should therefore be provided through environment variables or a local `.env` file rather than embedded in the source code.
 
 ## Evidence
 
-Included in this submission:
+The Module 6 submission includes supporting evidence such as:
 
-- website_running.png
-- docker_running.png
-- rabbitmq_running.png
-- worker_processed_tasks.png
-- coverage_summary.txt
-- pylint_score.txt
-- docker_compose_status.txt
-- worker_logs.txt
+- `website_running.png` - running Flask application
+- `docker_running.png` - Docker services
+- `rabbitmq_running.png` - RabbitMQ service
+- `worker_processed_tasks.png` - worker task processing
+- `coverage_summary.txt` - automated test and coverage results
+- `pylint_score.txt` - Pylint quality score
+- `docker_compose_status.txt` - Docker Compose service status
+- `worker_logs.txt` - worker execution evidence
 
----
+## Technologies
 
-## License
+The project uses:
 
-Educational project submitted for the Johns Hopkins University Modern Software Concepts course.
+- Python
+- Flask
+- PostgreSQL
+- psycopg
+- RabbitMQ
+- pika
+- Docker
+- Docker Compose
+- Pytest
+- pytest-cov
+- Pylint
+- Sphinx
+
+## Learning Outcomes
+
+Module 6 demonstrates how a Python application can evolve from a single application into a containerized, service-oriented architecture.
+
+The implementation demonstrates:
+
+- Separation of application responsibilities
+- Asynchronous messaging with RabbitMQ
+- Background worker processing
+- PostgreSQL persistence
+- Docker-based service isolation
+- Multi-container orchestration with Docker Compose
+- Automated testing and coverage analysis
+- Static code-quality validation
+- Generated technical documentation
+
+## Course
+
+Johns Hopkins University  
+Modern Software Concepts  
+Module 6

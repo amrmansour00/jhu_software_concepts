@@ -11,3 +11,4 @@ sphinx-rtd-theme
 setuptools
 wheel
 uv
+pika

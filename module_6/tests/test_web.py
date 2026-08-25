@@ -81,3 +81,16 @@ def test_publish_failure_returns_503(monkeypatch):
 
     assert response.status_code == 503
     assert response.json["error"] == "publish_failed"
+@pytest.mark.buttons
+def test_update_analysis_publish_failure_returns_503(monkeypatch):
+    """Update Analysis publish failures return service unavailable."""
+
+    def bad_publish(_kind, payload=None):
+        raise RuntimeError("rabbitmq unavailable")
+
+    monkeypatch.setattr(run, "publish_task", bad_publish)
+
+    response = run.app.test_client().post("/update-analysis")
+
+    assert response.status_code == 503
+    assert response.json["error"] == "publish_failed"

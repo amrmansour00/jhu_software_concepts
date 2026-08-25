@@ -1,11 +1,11 @@
 GradCafe Analytics Documentation
-===============================
+================================
 
-This documentation describes the Module 6 distributed GradCafe Analytics
-application using Docker Compose, PostgreSQL, RabbitMQ, Flask and a worker.
+This documentation describes the Module 6 GradCafe Analytics application, including the containerized web service, RabbitMQ worker, PostgreSQL integration, testing, and operational guidance.
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
    setup
    architecture
