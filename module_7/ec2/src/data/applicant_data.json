@@ -1,0 +1,34 @@
+[
+  {
+    "program": "Computer Science",
+    "comments": "Accepted with funding",
+    "date_added": "2026-01-15",
+    "url": "https://example.com/applicant-1",
+    "status": "Accepted",
+    "term": "Fall 2026",
+    "us_or_international": "American",
+    "gpa": 3.8,
+    "gre": 165,
+    "gre_v": 160,
+    "gre_aw": 4.5,
+    "degree": "Masters",
+    "llm_generated_program": "Computer Science",
+    "llm_generated_university": "Johns Hopkins University"
+  },
+  {
+    "program": "Data Science",
+    "comments": "International applicant",
+    "date_added": "2026-02-10",
+    "url": "https://example.com/applicant-2",
+    "status": "Accepted",
+    "term": "Fall 2026",
+    "us_or_international": "International",
+    "gpa": 3.7,
+    "gre": 162,
+    "gre_v": 158,
+    "gre_aw": 4.0,
+    "degree": "PhD",
+    "llm_generated_program": "Data Science",
+    "llm_generated_university": "Stanford University"
+  }
+]
