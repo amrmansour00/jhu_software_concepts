@@ -58,39 +58,40 @@ QUERIES = {
           AND status ILIKE '%Accepted%';
     """,
 
-    "Q7 JHU Masters Computer Science entries": """
-        SELECT COUNT(*)
-        FROM applicants
-        WHERE degree ILIKE '%Master%'
-          AND (
-                program ILIKE '%Johns Hopkins%'
-             OR program ILIKE '%JHU%'
-             OR llm_generated_university ILIKE '%Johns Hopkins%'
-          )
-          AND (
-                program ILIKE '%Computer Science%'
-             OR llm_generated_program ILIKE '%Computer Science%'
-          );
-    """,
+  "Q7 JHU Masters Computer Science entries": """
+    SELECT COUNT(*)
+    FROM applicants
+    WHERE degree ILIKE '%Master%'
+      AND llm_generated_university
+          ILIKE '%Johns Hopkins%'
+      AND (
+            program ILIKE '%Computer Science%'
+         OR llm_generated_program
+            ILIKE '%Computer Science%'
+      );
+""",
 
-    "Q8 2026 CS PhD acceptances from selected universities using scraped fields": """
-        SELECT COUNT(*)
-        FROM applicants
-        WHERE status ILIKE '%Accepted%'
-          AND degree ILIKE '%PhD%'
-          AND (
-                term ILIKE '%2026%'
-             OR date_added BETWEEN '2026-01-01' AND '2026-12-31'
-          )
-          AND program ILIKE '%Computer Science%'
-          AND (
-                program ILIKE '%Georgetown%'
-             OR program ILIKE '%MIT%'
-             OR program ILIKE '%Massachusetts Institute of Technology%'
-             OR program ILIKE '%Stanford%'
-             OR program ILIKE '%Carnegie Mellon%'
-          );
-    """,
+   "Q8 2026 CS PhD acceptances from selected universities using scraped fields": """
+    SELECT COUNT(*)
+    FROM applicants
+    WHERE status ILIKE '%Accepted%'
+      AND degree ILIKE '%PhD%'
+      AND (
+            term ILIKE '%2026%'
+         OR date_added BETWEEN
+            '2026-01-01' AND '2026-12-31'
+      )
+      AND program ILIKE '%Computer Science%'
+      AND (
+            llm_generated_university ILIKE '%Georgetown%'
+         OR llm_generated_university ILIKE '%MIT%'
+         OR llm_generated_university
+            ILIKE '%Massachusetts Institute of Technology%'
+         OR llm_generated_university ILIKE '%Stanford%'
+         OR llm_generated_university
+            ILIKE '%Carnegie Mellon%'
+      );
+""",
 
     "Q9 Same as Q8 using LLM-generated fields": """
         SELECT COUNT(*)

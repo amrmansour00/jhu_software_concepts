@@ -1,20 +1,30 @@
+# Python caches
 __pycache__/
-*.pyc
+*.py[cod]
 .pytest_cache/
-.env
-docs/build/
-# Python virtual environments
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
 .venv/
-module_11/.venv/
+env/
 
-# MLflow local files
-mlruns/
-mlartifacts/
-mlflow.db
-module_11/mlruns/
-module_11/mlartifacts/
-module_11/mlflow.db
+# Environment variables / secrets
+.env
 
-# Python cache
-__pycache__/
-*.pyc
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+# Final portfolio local/generated files
+**/.ipynb_checkpoints/
+**/*_backup.ipynb
+**/patch_*.py
+**/Jupyter interface.png
+top
+*.zip
+module_8/applicant_data.json

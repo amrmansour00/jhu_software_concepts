@@ -1,4 +1,4 @@
-# GradCafe Analytics Ã¢â‚¬â€œ Module 7
+﻿# GradCafe Analytics - Module 7
 
 
 
@@ -151,4 +151,5 @@ module_7/
 |-- mfa.png
 
 `-- web_8080.png
+
 
